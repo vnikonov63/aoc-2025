@@ -1,6 +1,7 @@
 use std::{env, fs::File, io::BufReader};
 
 mod day01;
+mod day02;
 
 fn main() {
     let mut args = env::args().skip(1);
@@ -28,6 +29,8 @@ fn main() {
     match (day, part) {
         (1, 1) => println!("{}", day01::part1(reader)),
         (1, 2) => println!("{}", day01::part2(reader)),
+        (2, 1) => println!("{}", day02::part1(reader)),
+        (2, 2) => println!("{}", day02::part2(reader)),
         _ => panic!("not implemented yet"),
     }
 }
