@@ -58,6 +58,7 @@ pub fn part1<R: BufRead>(mut input: R) -> String {
                 let r = right
                     .parse::<i128>()
                     .expect("Error: range engpoints should be a number");
+
                 let mut ll = leftleft.parse::<i128>().unwrap();
                 let mut rl = rightleft.parse::<i128>().unwrap();
                 let mut lr = leftright.parse::<i128>().unwrap();
@@ -72,7 +73,6 @@ pub fn part1<R: BufRead>(mut input: R) -> String {
                     end -= 1;
                 }
 
-                println!("{} {} | {} {} | {} {}", ll, rl, lr, rr, start, end);
                 for i in start..end {
                     result += (ll + i) * 10i128.pow(rightleft.len() as u32) + (ll + i)
                 }
