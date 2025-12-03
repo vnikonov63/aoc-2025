@@ -12,7 +12,7 @@ fn main() {
         .expect("Usage: day must be a number");
     let part: u8 = args
         .next()
-        .expect("Usage:: aot-2025 <day> <part>")
+        .expect("Usage: aot-2025 <day> <part>")
         .parse()
         .expect("Usage: part must be a number");
     if part != 1 && part != 2 {
@@ -27,7 +27,7 @@ fn main() {
 
     match (day, part) {
         (1, 1) => println!("{}", day01::part1(reader)),
-        (1, 2) => println!("{}", day01::part1(reader)),
+        (1, 2) => println!("{}", day01::part2(reader)),
         _ => panic!("not implemented yet"),
     }
 }
