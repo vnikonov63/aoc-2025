@@ -11,7 +11,7 @@ pub fn part1<R: BufRead>(mut input: R) -> String {
 
         // solution logic is here
         {
-            let ranges: Vec<String> = buf.split(',').map(|x| x.to_string()).collect();
+            let ranges: Vec<String> = buf.trim().split(',').map(|x| x.to_string()).collect();
             for range in ranges {
                 let [mut left, mut right]: [String; 2] = range
                     .split('-')
@@ -20,7 +20,7 @@ pub fn part1<R: BufRead>(mut input: R) -> String {
                     .try_into()
                     .expect("Error: a range must have a left an a right bound");
 
-                if left.len() % 2 == 1 && right.len() % 2 == 0 && left.len() == right.len() {
+                if left.len() % 2 == 1 && right.len() % 2 == 1 && left.len() == right.len() {
                     continue;
                 }
 
@@ -30,6 +30,10 @@ pub fn part1<R: BufRead>(mut input: R) -> String {
 
                 if right.len() % 2 == 1 {
                     right = "9".repeat(right.len() - 1);
+                }
+
+                if left.len() > right.len() {
+                    continue;
                 }
 
                 let leftmid = left.len() / 2;
@@ -48,20 +52,29 @@ pub fn part1<R: BufRead>(mut input: R) -> String {
                     continue;
                 }
 
-                if leftleft == leftright {
-                    result += left.parse::<i128>().unwrap();
+                let l = left
+                    .parse::<i128>()
+                    .expect("Error: range endpoints should be a number");
+                let r = right
+                    .parse::<i128>()
+                    .expect("Error: range engpoints should be a number");
+                let mut ll = leftleft.parse::<i128>().unwrap();
+                let mut rl = rightleft.parse::<i128>().unwrap();
+                let mut lr = leftright.parse::<i128>().unwrap();
+                let mut rr = rightright.parse::<i128>().unwrap();
+
+                let mut start = 0;
+                let mut end = lr - ll + 1;
+                if rl > ll {
+                    start += 1;
+                }
+                if lr > rr {
+                    end -= 1;
                 }
 
-                if rightleft == rightright {
-                    result += right.parse::<i128>().unwrap();
-                }
-
-                let distace =
-                    rightleft.parse::<i128>().unwrap() - leftleft.parse::<i128>().unwrap() - 1;
-                for i in 1..distace {
-                    result += (rightleft.parse::<i128>().unwrap() + i)
-                        * 10i128.pow(rightleft.len() as u32)
-                        + (rightleft.parse::<i128>().unwrap() + i)
+                println!("{} {} | {} {} | {} {}", ll, rl, lr, rr, start, end);
+                for i in start..end {
+                    result += (ll + i) * 10i128.pow(rightleft.len() as u32) + (ll + i)
                 }
             }
         }
@@ -74,7 +87,6 @@ pub fn part1<R: BufRead>(mut input: R) -> String {
 
 pub fn part2<R: BufRead>(mut input: R) -> String {
     let mut buf = String::new();
-    let mut current_lock_position = 50;
     let mut result = 0;
 
     while let Ok(num_bytes_read) = input.read_line(&mut buf) {
@@ -100,4 +112,30 @@ mod tests {
         let result = part1(cursor);
         assert_eq!(result, "1227775554");
     }
+    #[test]
+    fn test_part2() {
+        let input = "9191896883-9191940271";
+        let cursor = Cursor::new(input.as_bytes());
+        let result = part1(cursor);
+        assert_eq!(result, "0");
+    }
+    #[test]
+    fn test_part3() {
+        let input = "0-100";
+        let cursor = Cursor::new(input.as_bytes());
+        let result = part1(cursor);
+        assert_eq!(
+            result,
+            (11 + 22 + 33 + 44 + 55 + 66 + 77 + 88 + 99).to_string()
+        );
+    }
+    //#[test]
+    //fn test_part4() {
+    //    let input = "90-1213";
+    //    let cursor = Cursor::new(input.as_bytes());
+    //    let result = part1(cursor);
+    //    assert_eq!(result, (99 + 1010 + 1111 + 1212).to_string());
+    //}
 }
+
+// 9191896883-9191940271
