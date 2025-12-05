@@ -3,6 +3,7 @@ use std::{env, fs::File, io::BufReader};
 mod day01;
 mod day02;
 mod day03;
+mod day04;
 
 fn main() {
     let mut args = env::args().skip(1);
@@ -34,6 +35,8 @@ fn main() {
         (2, 2) => println!("{}", day02::part2(reader)),
         (3, 1) => println!("{}", day03::part1(reader)),
         (3, 2) => println!("{}", day03::part2(reader)),
+        (4, 1) => println!("{}", day04::part1(reader)),
+        (4, 0) => println!("{}", day04::part2(reader)),
         _ => panic!("not implemented yet"),
     }
 }
